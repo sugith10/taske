@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:todo/core/route/route_name/route_name.dart';
+import 'package:taske/core/route/route_name/route_name.dart';
 
 import '../../../../core/asset_path/app_asset.dart';
 import '../../../../core/theme/color/app_color.dart';
@@ -16,17 +16,18 @@ class SplashPage extends StatelessWidget {
       listener: (context, state) {
         if (state is OnboardingSignState) {
           Navigator.pushNamedAndRemoveUntil(
-              context, RouteName.signIn, (_) => false);
+              context, RouteName.home, (_) => false);
         }
       },
       child: Scaffold(
-          backgroundColor: AppColor.button,
-          body: Center(
-            child: SvgPicture.asset(
-              AppAsset.appLogo,
-              width: 250,
-            ),
-          )),
+        backgroundColor: AppColor.primary,
+        body: Center(
+          child: SvgPicture.asset(
+            AppAsset.appLogo,
+            width: 250,
+          ),
+        ),
+      ),
     );
   }
 }

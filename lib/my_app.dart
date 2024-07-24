@@ -5,7 +5,8 @@ import 'core/observer/navigator_observer.dart';
 import 'core/route/app_route.dart';
 import 'core/route/route_name/route_name.dart';
 import 'core/theme/theme.dart';
-import 'feature/onboarding/presentation/bloc/onboarding_bloc.dart';
+import 'features/auth/presentation/bloc/auth_bloc.dart';
+import 'features/onboarding/presentation/bloc/onboarding_bloc.dart';
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
@@ -13,9 +14,10 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MultiBlocProvider(
-     providers: [
-       BlocProvider(create:  (context) => OnboardingBloc()),
-     ],
+      providers: [
+        BlocProvider(create: (context) => OnboardingBloc()),
+        BlocProvider(create: (context) => AuthBloc()),
+      ],
       child: MaterialApp(
         title: 'Taske',
         theme: AppTheme().themeData,
