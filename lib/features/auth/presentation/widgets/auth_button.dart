@@ -12,7 +12,8 @@ class AuthButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ElevatedButton(
-      onPressed: () => onPressed(),
+      onPressed: () =>
+          {FocusManager.instance.primaryFocus?.unfocus(), onPressed()},
       style: ElevatedButton.styleFrom(
           minimumSize: const Size(double.infinity, 52.5)),
       child: Text(text),

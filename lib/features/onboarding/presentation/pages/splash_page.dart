@@ -16,7 +16,17 @@ class SplashPage extends StatelessWidget {
       listener: (context, state) {
         if (state is OnboardingSignState) {
           Navigator.pushNamedAndRemoveUntil(
-              context, RouteName.home, (_) => false);
+            context,
+            RouteName.welcome,
+            (_) => false,
+          );
+        }
+        if (state is OnboardingHomeState) {
+          Navigator.pushNamedAndRemoveUntil(
+            context,
+            RouteName.home,
+            (_) => false,
+          );
         }
       },
       child: Scaffold(

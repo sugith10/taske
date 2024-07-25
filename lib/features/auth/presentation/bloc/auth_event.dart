@@ -28,3 +28,5 @@ final class AuthSignUpEvent extends AuthEvent {
     required this.confirmPassword,
   });
 }
+
+final class AuthSignOutEvent extends AuthEvent {}

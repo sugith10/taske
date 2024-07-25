@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:taske/core/route/route_name/route_name.dart';
 
+import '../../../../core/route/route_name/route_name.dart';
 import '../../../../core/util/app_padding.dart';
 import '../../../../core/widget/default_app_bar.dart';
 import '../../../../core/widget/snack_message.dart';
@@ -40,19 +40,31 @@ class _SignInPageState extends State<SignInPage> {
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
-    return BlocListener<AuthBloc, AuthState>(
-      listener: (context, state) {
-        if (state is AuthSuccessState) {
-          Navigator.pushNamedAndRemoveUntil(
-              context, RouteName.home, (_) => false);
-        }
-        if (state is AuthFailState) {
-          AppSnackBar.show(
-            context: context,
-            message: state.message,
-          );
-        }
-      },
+    return MultiBlocListener(
+      listeners: [
+        BlocListener<AuthBloc, AuthState>(
+          listener: (context, state) {
+            if (state is AuthSuccessState) {
+              Navigator.pushNamedAndRemoveUntil(
+                  context, RouteName.home, (_) => false);
+            }
+            if (state is AuthFailState) {
+              AppSnackBar.show(
+                context: context,
+                message: state.message,
+              );
+            }
+          },
+        ),
+        BlocListener<AuthBloc, AuthState>(
+          listener: (context, state) {
+           if(state is AuthSignOutState){
+             Navigator.pushNamedAndRemoveUntil(
+                  context, RouteName.welcome, (_) => false);
+           }
+          },
+        ),
+      ],
       child: Scaffold(
         appBar: const DefaultAppBar(),
         body: SingleChildScrollView(
@@ -78,6 +90,7 @@ class _SignInPageState extends State<SignInPage> {
                 AuthButton(
                     text: "Login",
                     onPressed: () {
+                   
                       if (_formKey.currentState!.validate()) {
                         _signIn();
                       }

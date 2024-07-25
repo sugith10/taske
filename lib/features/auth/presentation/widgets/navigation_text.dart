@@ -21,11 +21,11 @@ class NavigationText extends StatelessWidget {
       child: RichText(
         text: TextSpan(
           text: '$leadingText ',
-          style: Theme.of(context).textTheme.labelSmall,
+          style: Theme.of(context).textTheme.bodyMedium,
           children: [
             TextSpan(
               text: buttonText,
-              style: Theme.of(context).textTheme.bodySmall!.copyWith(
+              style: Theme.of(context).textTheme.bodyLarge!.copyWith(
                     decorationColor: const Color.fromARGB(255, 122, 122, 122),
                     decoration: TextDecoration.underline,
                   ),
