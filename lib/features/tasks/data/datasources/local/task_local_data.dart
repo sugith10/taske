@@ -7,10 +7,10 @@ import 'package:taske/features/tasks/data/models/task_model.dart';
 class TaskLocalData {
   Future<void> storeTask(List<TaskModel> taskModelList) async {
     try {
-      // Store the posts in Hive
+      // Store the tasks in Hive
       final box = await Hive.openBox<TaskModel>('tasks');
       await box.clear(); // Clear existing data
-      await box.addAll(taskModelList); // Add all new posts
+      await box.addAll(taskModelList); // Add all new tasks
       await box.close();
       log('Stored ${taskModelList.length} posts in Hive');
     } catch (e) {
@@ -20,7 +20,7 @@ class TaskLocalData {
 
   Future<List<TaskModel>> getTask() async {
     try {
-      // Store the posts in Hive
+      // Store the tasks in Hive
       final box = await Hive.openBox<TaskModel>('tasks');
 
       final List<TaskModel> list = box.values.toList();

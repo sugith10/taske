@@ -17,7 +17,7 @@ class TaskRepositoryImpl implements TaskRepository {
   @override
   Future<void> addpost(
       {required String title, required String description}) async {
-    return await _remoteData.addPost({
+    return await _remoteData.addTask({
       "title": title,
       "description": description,
     });
@@ -26,13 +26,13 @@ class TaskRepositoryImpl implements TaskRepository {
   /// Deletes a post by ID using the remote service.
   @override
   Future<void> deletepost(int id) {
-    return _remoteData.deletePost(id);
+    return _remoteData.deleteTask(id);
   }
 
-  /// Fetches all posts using the remote service.
+  /// Fetches all Tasks using the remote service.
   @override
   Future<List<Task>> getallpost() async {
-    final List<TaskModel> list = await _remoteData.getPost();
+    final List<TaskModel> list = await _remoteData.getTask();
     await _localData.storeTask(list);
     return list.map((model) => _taskMapper.toEntity(model)).toList();
   }
@@ -42,7 +42,7 @@ class TaskRepositoryImpl implements TaskRepository {
   Future<void> updatepost(Task task) async {
     final TaskModel taskModel = _taskMapper.toModel(task);
     final Map<String, dynamic> data = taskModel.toJson();
-    return await _remoteData.updatePost(data);
+    return await _remoteData.updateTask(data);
   }
 
   /// Fetches a single post by ID using the remote service.

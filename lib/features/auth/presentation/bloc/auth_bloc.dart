@@ -27,6 +27,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   }
 
   _login(AuthSignInEvent event, Emitter<AuthState> emit) async {
+    emit(AuthLoadingState());
     try {
       final User user =
           await userLoginUseCase.call(event.email, event.password);
@@ -38,6 +39,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   }
 
   _signUp(AuthSignUpEvent event, Emitter<AuthState> emit) async {
+     emit(AuthLoadingState());
     if (event.password != event.confirmPassword) {
       emit(const AuthFailState(message: 'Password does not match'));
       emit(AuthInitial());

@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:taske/core/widget/snack_message.dart';
 
 import '../../../../core/util/app_padding.dart';
 import '../../../../core/widget/default_app_bar.dart';
 import '../../domain/entities/task_entity.dart';
-import '../bloc/task_bloc/task_bloc.dart';
+import '../bloc/inidividual_task_bloc/individual_task_bloc.dart';
 import '../widgets/create_floating_action_button.dart';
 import '../widgets/create_form_widget.dart';
 
@@ -22,7 +23,8 @@ class _CreatePageState extends State<CreatePage> {
   final TextEditingController priorityController = TextEditingController();
   final TextEditingController dueDateController = TextEditingController();
   final TextEditingController statusController = TextEditingController();
-   final TextEditingController selectUserController = TextEditingController();
+  final TextEditingController selectUserController = TextEditingController();
+  final TextEditingController remainingTimeController = TextEditingController();
 
   @override
   void initState() {
@@ -40,26 +42,35 @@ class _CreatePageState extends State<CreatePage> {
     priorityController.dispose();
     dueDateController.dispose();
     statusController.dispose();
+    selectUserController.dispose();
+    remainingTimeController.dispose();
     super.dispose();
   }
 
   void addToBloc() {
-    context.read<TaskBloc>().add(TaskAddEvent(
+    context.read<IndividualTaskBloc>().add(TaskAddEvent(
           dateTime: dueDateController.text,
           description: descriptionController.text,
           priority: priorityController.text,
           title: titleController.text,
           status: statusController.text,
           task: widget.task,
+          time: titleController.text,
+          user: selectUserController.text,
         ));
   }
 
   @override
   Widget build(BuildContext context) {
-    return BlocListener<TaskBloc, TaskState>(
+    return BlocListener<IndividualTaskBloc, IndividualTaskState>(
       listener: (context, state) {
         if (state is TaskSuccessState) {
+          AppSnackBar.show(
+              context: context, message: state.message, isError: false);
           Navigator.pop(context);
+        }
+        if (state is TaskErrorState) {
+          AppSnackBar.show(context: context, message: state.message);
         }
       },
       child: Scaffold(
@@ -71,11 +82,13 @@ class _CreatePageState extends State<CreatePage> {
               Padding(
                 padding: const EdgeInsets.all(AppPadding.home),
                 child: CreateFormWidget(
+                  selectUserController: selectUserController,
                   titleController: titleController,
                   descriptionController: descriptionController,
                   dueDateController: dueDateController,
                   statusController: statusController,
                   priorityController: priorityController,
+                  remainingTimeController: remainingTimeController,
                 ),
               ),
             ],

@@ -1,27 +1,26 @@
-part of 'task_bloc.dart';
+part of 'individual_task_bloc.dart';
 
-@immutable
-sealed class TaskEvent extends Equatable {
-  const TaskEvent();
+sealed class IndividualTaskEvent extends Equatable {
+  const IndividualTaskEvent();
 
   @override
-  List<Object?> get props => [];
+  List<Object> get props => [];
 }
 
-final class TaskGetAllEvent extends TaskEvent {}
-
-final class DeleteTaskEvent extends TaskEvent {
+ class DeleteTaskEvent extends IndividualTaskEvent{
   final int id;
   const DeleteTaskEvent(this.id);
-}
+ }
 
-final class TaskAddEvent extends TaskEvent {
+ final class TaskAddEvent extends IndividualTaskEvent {
   final Task? task;
   final String dateTime;
   final String title;
   final String description;
   final String priority;
   final String status;
+  final String time;
+  final String user;
   const TaskAddEvent({
     required this.dateTime,
     required this.title,
@@ -29,5 +28,7 @@ final class TaskAddEvent extends TaskEvent {
     required this.priority,
     required this.status,
     required this.task,
+     required this.time,
+      required this.user,
   });
 }

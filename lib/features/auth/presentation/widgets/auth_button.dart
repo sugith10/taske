@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 
 class AuthButton extends StatelessWidget {
-  final String text;
+  final Widget child;
   final VoidCallback onPressed;
   const AuthButton({
-    required this.text,
+    required this.child,
     required this.onPressed,
     super.key,
   });
@@ -16,7 +16,7 @@ class AuthButton extends StatelessWidget {
           {FocusManager.instance.primaryFocus?.unfocus(), onPressed()},
       style: ElevatedButton.styleFrom(
           minimumSize: const Size(double.infinity, 52.5)),
-      child: Text(text),
+      child: child,
     );
   }
 }

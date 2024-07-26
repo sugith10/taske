@@ -30,7 +30,7 @@ class WelocmePage extends StatelessWidget {
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 10),
                   child: AuthButton(
-                    text: "Login",
+                    child: const Text("Login"),
                     onPressed: () =>
                         Navigator.pushNamed(context, RouteName.signIn),
                   ),

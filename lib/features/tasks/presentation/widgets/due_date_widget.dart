@@ -5,10 +5,13 @@ import 'create_container.dart';
 
 class DueDateWidget extends StatefulWidget {
   final TextEditingController dueDateController;
-
+  final String title;
+  final bool date;
   const DueDateWidget({
     super.key,
+    required this.title,
     required this.dueDateController,
+    required this.date,
   });
 
   @override
@@ -29,12 +32,40 @@ class _DueDateWidgetState extends State<DueDateWidget> {
     });
   }
 
+    void _showTimePicker() {
+    showTimePicker(
+      context: context,
+      initialTime: TimeOfDay.now(),
+    ).then((selectedTime) {
+      if (selectedTime != null) {
+        final now = DateTime.now();
+        final selectedDateTime = DateTime(now.year, now.month, now.day, selectedTime.hour, selectedTime.minute);
+        final remainingTime = selectedDateTime.difference(now);
+
+        if (remainingTime.isNegative) {
+          // If the selected time is before the current time, add 24 hours to it
+          final tomorrowSelectedDateTime = selectedDateTime.add(const Duration(days: 1));
+          final remainingTimeTomorrow = tomorrowSelectedDateTime.difference(now);
+          widget.dueDateController.text = _formatDuration(remainingTimeTomorrow);
+        } else {
+          widget.dueDateController.text = _formatDuration(remainingTime);
+        }
+      }
+    });
+  }
+
+  String _formatDuration(Duration duration) {
+    final hours = duration.inHours;
+    final minutes = duration.inMinutes % 60;
+    return '$hours hours and $minutes minutes remaining';
+  }
+
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: _showDatePicker,
+      onTap: widget.date ? _showDatePicker : _showTimePicker,
       child:  CreateContainer(
-        title: "Due Date",
+        title: widget.title,
         child:TextField(
           enabled: false,
           controller: widget.dueDateController,

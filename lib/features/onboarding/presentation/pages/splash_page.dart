@@ -24,7 +24,7 @@ class SplashPage extends StatelessWidget {
         if (state is OnboardingHomeState) {
           Navigator.pushNamedAndRemoveUntil(
             context,
-            RouteName.home,
+            RouteName.main,
             (_) => false,
           );
         }

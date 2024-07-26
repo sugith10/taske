@@ -9,6 +9,11 @@ import '../../features/auth/domain/repositories/auth_repo.dart';
 import '../../features/auth/domain/usecases/user_login.dart';
 import '../../features/auth/domain/usecases/user_register.dart';
 import '../../features/auth/domain/usecases/user_sign_out.dart';
+import '../../features/task_user/data/datasources/remote/user_remote_data.dart';
+import '../../features/task_user/data/mappers/task_user_mapper.dart';
+import '../../features/task_user/data/repositories/task_user_repo_impl.dart';
+import '../../features/task_user/domain/repositories/task_user_repository.dart';
+import '../../features/task_user/domain/usecases/get_task_users_use_case.dart';
 import '../../features/tasks/data/datasources/local/task_local_data.dart';
 import '../../features/tasks/data/datasources/remote/task_remote_data.dart';
 import '../../features/tasks/data/mappers/task_mapper.dart';
@@ -65,5 +70,16 @@ final class DependencyInjection {
       //Update Task UseCase
       ..registerLazySingleton<UpdateTaskUseCase>(
           () => UpdateTaskUseCase(_getIt<TaskRepository>()));
+
+    ///User
+    _getIt
+      ..registerLazySingleton<TaskUserRemoteData>(() => TaskUserRemoteData())
+      // ..registerLazySingleton<TaskLocalData>(() => TaskLocalData())
+      ..registerLazySingleton<TaskUserRepository>(() =>
+          TaskUserRepoImpl(_getIt<TaskUserRemoteData>(), TaskUserMapper()));
+
+    //GetAll Users UseCase
+    _getIt.registerLazySingleton<GetTaskUsersUseCase>(
+        () => GetTaskUsersUseCase(_getIt<TaskUserRepository>()));
   }
 }

@@ -5,9 +5,9 @@ import 'package:taske/features/tasks/domain/entities/task_entity.dart';
 
 import 'delete_dialogue.dart';
 
-class ListTileWidget extends StatelessWidget {
+class TaskTileWidget extends StatelessWidget {
   final Task task;
-  const ListTileWidget({
+  const TaskTileWidget({
     super.key,
     required this.task,
   });

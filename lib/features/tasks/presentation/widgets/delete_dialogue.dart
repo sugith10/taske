@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:taske/core/theme/color/app_color.dart';
-import 'package:taske/features/tasks/presentation/bloc/task_bloc/task_bloc.dart';
+import 'package:taske/features/tasks/presentation/bloc/inidividual_task_bloc/individual_task_bloc.dart';
 
 /// Shows a confirmation dialog for deleting a post.
 deleteDialogue({
@@ -34,7 +34,7 @@ deleteDialogue({
             children: [
               TextButton(
                 onPressed: () {
-                  context.read<TaskBloc>().add(DeleteTaskEvent(id));
+                  context.read<IndividualTaskBloc>().add(DeleteTaskEvent(id));
                   Navigator.of(ctx).pop(); // Close the dialog
                 },
                 child: const Text(

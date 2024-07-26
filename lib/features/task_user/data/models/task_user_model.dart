@@ -1,11 +1,25 @@
-class TaskUser {
+import 'package:hive_flutter/hive_flutter.dart';
+
+part 'task_user_model.g.dart';
+
+@HiveType(typeId: 1)
+class TaskUserModel extends HiveObject {
+  @HiveField(0)
   final int id;
+
+  @HiveField(1)
   final String email;
+
+  @HiveField(2)
   final String firstName;
+
+  @HiveField(3)
   final String lastName;
+
+  @HiveField(4)
   final String avatar;
 
-  TaskUser({
+  TaskUserModel({
     required this.id,
     required this.email,
     required this.firstName,
@@ -13,9 +27,8 @@ class TaskUser {
     required this.avatar,
   });
 
-  factory TaskUser.fromJson(Map<String, dynamic> json) {
-   
-    return TaskUser(
+  factory TaskUserModel.fromJson(Map<String, dynamic> json) {
+    return TaskUserModel(
       id: json['id'],
       email: json['email'],
       firstName: json['first_name'],
@@ -36,6 +49,6 @@ class TaskUser {
 
   @override
   String toString() {
-    return 'TaskUser{id: $id, email: $email, firstName: $firstName, lastName: $lastName, avatar: $avatar}';
+    return 'TaskUserModel{id: $id, email: $email, firstName: $firstName, lastName: $lastName, avatar: $avatar}';
   }
 }

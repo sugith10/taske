@@ -7,9 +7,9 @@ import '../../models/task_model.dart';
 class TaskRemoteData {
   final baseurl = 'https://jsonplaceholder.typicode.com';
 
-  /// Adds a new post to the remote server.
+  /// Adds a new task to the remote server.
 
-  Future<void> addPost(Map<String, dynamic> data) async {
+  Future<void> addTask(Map<String, dynamic> data) async {
     try {
       Uri uri = Uri.parse('$baseurl/posts');
       final response = await http.post(
@@ -28,8 +28,8 @@ class TaskRemoteData {
     }
   }
 
-  /// Deletes a post from the remote server by its [id].
-  Future<void> deletePost(int id) async {
+  /// Deletes a Task from the remote server by its [id].
+  Future<void> deleteTask(int id) async {
     try {
       Uri uri = Uri.parse('$baseurl/posts/$id');
       final response = await http.delete(uri);
@@ -40,7 +40,7 @@ class TaskRemoteData {
   }
 
   /// Retrieves a list of posts from the remote server.
-  Future<List<TaskModel>> getPost() async {
+  Future<List<TaskModel>> getTask() async {
     List<TaskModel> posts = [];
     try {
       Uri uri = Uri.parse('$baseurl/posts');
@@ -58,7 +58,7 @@ class TaskRemoteData {
   }
 
   /// Updates an existing post on the remote server using the provided [data].
-  Future<void> updatePost(Map<String, dynamic> data) async {
+  Future<void> updateTask(Map<String, dynamic> data) async {
     try {
       Uri uri = Uri.parse('$baseurl/posts/${data['id']}');
       final response = await http.put(uri, body: jsonEncode(data));

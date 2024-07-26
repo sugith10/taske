@@ -1,7 +1,9 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:taske/core/route/route_name/route_name.dart';
 
+import '../../../../core/theme/color/app_color.dart';
 import '../../../../core/util/app_padding.dart';
 import '../../../../core/widget/default_app_bar.dart';
 import '../../../../core/widget/snack_message.dart';
@@ -49,7 +51,7 @@ class _SignUpPageState extends State<SignUpPage> {
       listener: (context, state) {
         if (state is AuthSuccessState) {
           Navigator.pushNamedAndRemoveUntil(
-              context, RouteName.home, (_) => false);
+              context, RouteName.main, (_) => false);
         }
         if (state is AuthFailState) {
           AppSnackBar.show(
@@ -81,7 +83,16 @@ class _SignUpPageState extends State<SignUpPage> {
                 ),
                 const SizedBox(height: 40),
                 AuthButton(
-                  text: "Register",
+                  child: BlocBuilder<AuthBloc, AuthState>(
+                    builder: (context, state) {
+                       if (state is AuthLoadingState) {
+                       return const CupertinoActivityIndicator(
+                        color: AppColor.bg,
+                      );
+                    }
+                      return const Text("Register");
+                    },
+                  ),
                   onPressed: () {
                     if (formKey.currentState!.validate()) {
                       _signIn();

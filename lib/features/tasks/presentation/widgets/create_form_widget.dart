@@ -4,6 +4,7 @@ import 'create_container.dart';
 import 'create_textfield.dart';
 import 'due_date_widget.dart';
 import 'priority_widget.dart';
+import 'select_user_widget.dart';
 
 class CreateFormWidget extends StatelessWidget {
   const CreateFormWidget({
@@ -13,6 +14,8 @@ class CreateFormWidget extends StatelessWidget {
     required this.dueDateController,
     required this.statusController,
     required this.priorityController,
+    required this.remainingTimeController,
+    required this.selectUserController,
   });
 
   final TextEditingController titleController;
@@ -20,6 +23,8 @@ class CreateFormWidget extends StatelessWidget {
   final TextEditingController dueDateController;
   final TextEditingController statusController;
   final TextEditingController priorityController;
+  final TextEditingController remainingTimeController;
+  final TextEditingController selectUserController;
 
   @override
   Widget build(BuildContext context) {
@@ -42,19 +47,26 @@ class CreateFormWidget extends StatelessWidget {
           ),
         ),
         const SizedBox(height: 30),
-        DueDateWidget(dueDateController: dueDateController),
-        const SizedBox(height: 30),
-        CreateContainer(
-          title: "Select User",
-          child: ExperienceWidget(
-            controller: priorityController,
-            hintText: "Select User",
-            optionOne: "High",
-            optionTwo: "Medium",
-            optionThree: "Low",
-          ),
+        Row(
+          children: [
+            Expanded(
+                child: DueDateWidget(
+              dueDateController: dueDateController,
+              title: "Due Date",
+              date: true,
+            )),
+            const SizedBox(width: 10),
+            Expanded(
+                child: DueDateWidget(
+              dueDateController: remainingTimeController,
+              title: "Remaining Time",
+              date: false,
+            )),
+          ],
         ),
         const SizedBox(height: 30),
+       
+       SelectUserWidget(controller: selectUserController,),
         CreateContainer(
           title: "Status",
           child: ExperienceWidget(

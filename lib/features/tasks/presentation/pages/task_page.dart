@@ -4,27 +4,24 @@ import 'package:taske/core/route/route_name/route_name.dart';
 
 import '../../../../core/widget/snack_message.dart';
 import '../../../auth/presentation/bloc/auth_bloc.dart';
-import '../bloc/task_bloc/task_bloc.dart';
+import '../bloc/all_task_bloc/all_task_bloc.dart';
 import '../widgets/home_floating_action_button.dart';
 import '../widgets/home_app_bar.dart';
 import '../widgets/list_tile_widget.dart';
 
-class HomePage extends StatelessWidget {
-  const HomePage({super.key});
+class TaskPage extends StatelessWidget {
+  const TaskPage({super.key});
 
   @override
   Widget build(BuildContext context) {
     return MultiBlocListener(
       listeners: [
-        BlocListener<TaskBloc, TaskState>(
+        BlocListener<AllTaskBloc, TaskState>(
           listener: (context, state) {
-            if (state is TaskErrorState) {
+            if (state is AllTaskErrorState) {
               AppSnackBar.show(context: context, message: state.message);
             }
-            if (state is TaskSuccessState) {
-              AppSnackBar.show(
-                  context: context, message: state.message, isError: false);
-            }
+
             if (state is TaskNetworkErrorState) {
               Navigator.pushNamed(context, RouteName.networkError);
             }
@@ -43,18 +40,20 @@ class HomePage extends StatelessWidget {
         body: RefreshIndicator(
           onRefresh: () async {
             // Trigger a refresh of the tasks
-            context.read<TaskBloc>().add(TaskGetAllEvent());
+            context.read<AllTaskBloc>().add(TaskGetAllEvent());
           },
-          child: BlocBuilder<TaskBloc, TaskState>(
+          child: BlocBuilder<AllTaskBloc, TaskState>(
             builder: (context, state) {
-              if (state is TaskLoadedState) {
+              if (state is AllTaskLoadedState) {
                 return CustomScrollView(
                   slivers: [
-                    const HomeAppBar(),
+                    const HomeAppBar(
+                      title: "Task Manager",
+                    ),
                     SliverList(
                       delegate: SliverChildBuilderDelegate(
                         (context, index) => ListTile(
-                          title: ListTileWidget(
+                          title: TaskTileWidget(
                             task: state.tasks[index],
                           ),
                         ),
@@ -64,14 +63,12 @@ class HomePage extends StatelessWidget {
                   ],
                 );
               }
-              if (state is TaskLoadedState) {
-                return const Center(child: CircularProgressIndicator());
-              }
+
               return const Center(child: CircularProgressIndicator());
             },
             buildWhen: (previous, current) {
-              return current is TaskLoadedState ||
-                  current is TaskGetAllLoadingState;
+              return current is AllTaskLoadedState ||
+                  current is AllTaskLoadingState;
             },
           ),
         ),
